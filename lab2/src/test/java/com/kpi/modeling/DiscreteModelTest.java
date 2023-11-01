@@ -1,8 +1,9 @@
 package com.kpi.modeling;
 
-import com.kpi.modeling.model.*;
 import com.kpi.modeling.model.Process;
-import org.junit.jupiter.api.Test;
+import com.kpi.modeling.model.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 
 import java.util.List;
 
@@ -10,13 +11,14 @@ class DiscreteModelTest {
 
     private final Model model = new Model();
 
-    @Test
-    void simpleTest() {
-        final Distribution createDist = new Distribution(Distribution.DistEnum.EXP, 5.0);
-        final Distribution processDist = new Distribution(Distribution.DistEnum.EXP, 4.0);
+    @ParameterizedTest
+    @CsvFileSource(resources = "/simpleModel.csv")
+    void simpleTest(Distribution.DistEnum dist1, double l1, Distribution.DistEnum dist2, double l2, int queue) {
+        final Distribution createDist = new Distribution(dist1, l1);
+        final Distribution processDist = new Distribution(dist2, l2);
 
         Create c = new Create(model, "Create", createDist);
-        Process p1 = new Process(model, "Process1", processDist, 3);
+        Process p1 = new Process(model, "Process1", processDist, queue);
         Destroy d = new Destroy(model, "Destroy");
 
         c.addNext(p1, 1.0);
@@ -31,15 +33,16 @@ class DiscreteModelTest {
         model.simulate(1000);
     }
 
-    @Test
-    void chainTest() {
-        final Distribution createDist = new Distribution(Distribution.DistEnum.EXP, 3.0);
-        final Distribution processDist = new Distribution(Distribution.DistEnum.EXP, 4.0);
+    @ParameterizedTest
+    @CsvFileSource(resources = "/chainModel.csv")
+    void chainTest(Distribution.DistEnum dist1, double l1, Distribution.DistEnum dist2, double l2, int queue1, int queue2, int queue3) {
+        final Distribution createDist = new Distribution(dist1, l1);
+        final Distribution processDist = new Distribution(dist2, l2);
 
         Create c = new Create(model, "Create", createDist);
-        Process p1 = new Process(model, "Process1", processDist, 5);
-        Process p2 = new Process(model, "Process2", processDist, 5);
-        Process p3 = new Process(model, "Process3", processDist, 5);
+        Process p1 = new Process(model, "Process1", processDist, queue1);
+        Process p2 = new Process(model, "Process2", processDist, queue2);
+        Process p3 = new Process(model, "Process3", processDist, queue3);
         Destroy d = new Destroy(model, "Destroy");
 
         c.addNext(p1, 1.0);
@@ -56,21 +59,23 @@ class DiscreteModelTest {
         model.simulate(1000);
     }
 
-    @Test
-    void complexTest() {
-        final Distribution createDist = new Distribution(Distribution.DistEnum.EXP, 3.0);
-        final Distribution processDist = new Distribution(Distribution.DistEnum.NORMAL, 4.0, 1.0);
+    @ParameterizedTest
+    @CsvFileSource(resources = "/complexModel.csv")
+    void complexTest(Distribution.DistEnum dist1, double l1, Distribution.DistEnum dist2, double mean1,
+                     double s1, int queue1, int queue2, int queue3, int queue4, int queue5, double prob1, double prob2) {
+        final Distribution createDist = new Distribution(dist1, l1);
+        final Distribution processDist = new Distribution(dist2, mean1, s1);
 
         Create c = new Create(model, "Create", createDist);
-        Process p1 = new Process(model, "Process1", processDist, 5);
-        Process p2 = new Process(model, "Process2", processDist, 5);
-        Process p3 = new Process(model, "Process3", processDist, 5);
-        Process p4 = new Process(model, "Process4", processDist, 5);
-        Process p5 = new Process(model, "Process5", processDist, 5);
+        Process p1 = new Process(model, "Process1", processDist, queue1);
+        Process p2 = new Process(model, "Process2", processDist, queue2);
+        Process p3 = new Process(model, "Process3", processDist, queue3);
+        Process p4 = new Process(model, "Process4", processDist, queue4);
+        Process p5 = new Process(model, "Process5", processDist, queue5);
         Destroy d = new Destroy(model, "Destroy");
 
-        c.addNext(p1, 0.3);
-        c.addNext(p2, 0.7);
+        c.addNext(p1, prob1);
+        c.addNext(p2, prob2);
         p1.addNext(p3, 1.0);
         p2.addNext(p4, 1.0);
         p3.addNext(p5, 1.0);
