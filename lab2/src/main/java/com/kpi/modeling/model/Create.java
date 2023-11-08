@@ -6,33 +6,40 @@ public class Create extends BaseItem {
 
     private final Distribution distribution;
 
-    public Create(Model model, String name, Distribution distribution) {
-        super(model, name);
+    public Create(Model model, String name, Distribution distribution, Mode mode) {
+        super(model, name, mode);
         this.distribution = distribution;
     }
 
-    public void populateEvent() {
+    public Create(Model model, String name, Distribution distribution, Mode mode, boolean redistributable) {
+        this(model, name, distribution, mode);
+        this.redistributable = redistributable;
+    }
+
+    public Event populateEvent() {
         final double start = model.getTcurr() + distribution.getValue();
         final Event newEvent = new Event(start);
         newEvent.setHeldBy(this);
         model.getActiveEvents().add(newEvent);
+        return newEvent;
     }
 
     @Override
     public void handleFinish(Event event) {
-        double rand = Math.random();
-        for (BaseItemProb bip : next) {
-            if (rand <= bip.probability()) {
-                model.incrementNumCreate();
-                quantity++;
-                bip.item().handleAccept(event);
-                this.populateEvent();
-                return;
-            } else {
-                rand -= bip.probability();
-            }
+        final BaseItem nextItem = this.findNext(event);
+        if (nextItem == null) {
+            declareFailure(event);
+            return;
         }
-        declareFailure(event);
+
+        model.incrementNumCreate();
+        quantity++;
+        nextItem.handleAccept(event);
+        this.populateEvent();
+    }
+
+    public Distribution getDistribution() {
+        return distribution;
     }
 
     @Override

@@ -17,10 +17,16 @@ public class Distribution {
         return Math.abs(dist.retrieveRandValue(params));
     }
 
+    public DistEnum getDist() {
+        return dist;
+    }
+
     public enum DistEnum {
         UNIFORM(params -> FunRand.Unif(params[0], params[1])),
         EXP(params -> FunRand.Exp(params[0])),
-        NORMAL(params -> FunRand.Norm(params[0], params[1]));
+        NORMAL(params -> FunRand.Norm(params[0], params[1])),
+        ERLANG(params -> FunRand.Erlang(params[0], params[1].intValue())),
+        FIXED(params -> params[0]);
 
         private final Function<Double[], Double> calculateFunc;
 

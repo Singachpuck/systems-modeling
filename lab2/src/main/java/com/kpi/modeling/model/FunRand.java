@@ -47,4 +47,19 @@ public class FunRand {
         a = timeMean + timeDeviation * r.nextGaussian();
         return a;
     }
+
+    /**
+     * Generates Erlang random variable.
+     * @param timeMean
+     * @param k
+     * @return
+     */
+    public static double Erlang(double timeMean, int k) {
+        double a = 1;
+        for (int i = 0; i < k; i++) {
+            a *= FunRand.Unif(0, 1);
+        }
+
+        return -Math.log(a) / (k * timeMean);
+    }
 }
