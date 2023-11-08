@@ -17,8 +17,8 @@ class DiscreteModelTest {
         final Distribution createDist = new Distribution(dist1, l1);
         final Distribution processDist = new Distribution(dist2, l2);
 
-        Create c = new Create(model, "Create", createDist);
-        Process p1 = new Process(model, "Process1", processDist, queue);
+        Create c = new Create(model, "Create", createDist, BaseItem.Mode.PROB);
+        Process p1 = new Process(model, "Process1", processDist, queue, BaseItem.Mode.PROB);
         Destroy d = new Destroy(model, "Destroy");
 
         c.addNext(p1, 1.0);
@@ -39,10 +39,10 @@ class DiscreteModelTest {
         final Distribution createDist = new Distribution(dist1, l1);
         final Distribution processDist = new Distribution(dist2, l2);
 
-        Create c = new Create(model, "Create", createDist);
-        Process p1 = new Process(model, "Process1", processDist, queue1);
-        Process p2 = new Process(model, "Process2", processDist, queue2);
-        Process p3 = new Process(model, "Process3", processDist, queue3);
+        Create c = new Create(model, "Create", createDist, BaseItem.Mode.PROB);
+        Process p1 = new Process(model, "Process1", processDist, queue1, BaseItem.Mode.PROB);
+        Process p2 = new Process(model, "Process2", processDist, queue2, BaseItem.Mode.PROB);
+        Process p3 = new Process(model, "Process3", processDist, queue3, BaseItem.Mode.PROB);
         Destroy d = new Destroy(model, "Destroy");
 
         c.addNext(p1, 1.0);
@@ -66,12 +66,12 @@ class DiscreteModelTest {
         final Distribution createDist = new Distribution(dist1, l1);
         final Distribution processDist = new Distribution(dist2, mean1, s1);
 
-        Create c = new Create(model, "Create", createDist);
-        Process p1 = new Process(model, "Process1", processDist, queue1);
-        Process p2 = new Process(model, "Process2", processDist, queue2);
-        Process p3 = new Process(model, "Process3", processDist, queue3);
-        Process p4 = new Process(model, "Process4", processDist, queue4);
-        Process p5 = new Process(model, "Process5", processDist, queue5);
+        Create c = new Create(model, "Create", createDist, BaseItem.Mode.PROB);
+        Process p1 = new Process(model, "Process1", processDist, queue1, BaseItem.Mode.PROB);
+        Process p2 = new Process(model, "Process2", processDist, queue2, BaseItem.Mode.PROB);
+        Process p3 = new Process(model, "Process3", processDist, queue3, BaseItem.Mode.PROB);
+        Process p4 = new Process(model, "Process4", processDist, queue4, BaseItem.Mode.PROB);
+        Process p5 = new Process(model, "Process5", processDist, queue5, BaseItem.Mode.PROB);
         Destroy d = new Destroy(model, "Destroy");
 
         c.addNext(p1, prob1);
