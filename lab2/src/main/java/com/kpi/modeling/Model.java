@@ -9,7 +9,7 @@ public class Model {
 
     private double tcurr;
 
-    private int numCreate, numProcess, failure, trades;
+    protected int numCreate, numProcess, failure, trades;
 
     private Collection<BaseItem> schema;
 
@@ -32,7 +32,7 @@ public class Model {
         this.printStatistic();
     }
 
-    private void onNext() {
+    protected void onNext() {
         Event minCreatedEvent = null;
         Event minProcessEvent = null;
 
@@ -117,7 +117,7 @@ public class Model {
         }
     }
 
-    private void printStatistic() {
+    protected void printStatistic() {
         System.out.println("\n-------------RESULTS-------------");
         System.out.println("numCreate= " + numCreate + "; numProcess = " + numProcess + "; failure = " + failure +
                 "; total failure probability = " + ((double) failure / (numProcess + failure)) +
@@ -129,7 +129,7 @@ public class Model {
         }
     }
 
-    private void printInfo() {
+    protected void printInfo() {
         System.out.println(" t= " + tcurr);
         for (BaseItem item : schema) {
             item.printInfo();
