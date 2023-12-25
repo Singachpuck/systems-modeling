@@ -16,6 +16,7 @@
     <module>lab3</module>
     <module>lab4</module>
     <module>lab7</module>
+      <module>course-work</module>
   </modules>
 
   <properties>
