@@ -78,7 +78,7 @@ public class Task3Test {
         return net;
     }
 
-    public PetriNet getBusPart(int n, double t) throws ExceptionInvalidTimeDelay {
+    public PetriNet getBusPart(int busPresent, double moveTime) throws ExceptionInvalidTimeDelay {
         final ArrayList<PetriP> places = new ArrayList<>();
         final ArrayList<PetriT> transitions = new ArrayList<>();
         final ArrayList<ArcIn> arcsIn = new ArrayList<>();
@@ -86,7 +86,7 @@ public class Task3Test {
 
         // Places
         places.add(new PetriP("queueP"));
-        places.add(new PetriP("busReadyP",n));
+        places.add(new PetriP("busReadyP",busPresent));
         places.add(new PetriP("placesP"));
         places.add(new PetriP("busesArrivedP"));
         places.add(new PetriP("availableP"));
@@ -95,7 +95,7 @@ public class Task3Test {
         // Transitions
         transitions.add(new PetriT("enterT"));
         transitions.get(0).setPriority(1);
-        transitions.add(new PetriT("moveT",t));
+        transitions.add(new PetriT("moveT",moveTime));
         transitions.get(1).setDistribution("norm", transitions.get(1).getTimeServ());
         transitions.get(1).setParamDeviation(5.0);
         transitions.add(new PetriT("exitT",5.0));

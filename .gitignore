@@ -1,3 +1,10 @@
 .idea/
 target/
 *.iml
+
+lab8/*.db
+lab8/*.dsn
+lab8/*.opw
+lab8/*.out
+lab8/*.xlsm
+lab8/*.p
