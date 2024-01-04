@@ -1,4 +1,5 @@
 import PetriObj.*;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -13,6 +14,11 @@ public class ModelVerificationTest {
     @ValueSource(ints = {1000, 5000, 10000, 20000, 50000, 100000, 200000, 500000, 1_000_000, 2_000_000})
     public void runNormal(double t) throws ExceptionInvalidTimeDelay {
         SIM_TIME = t;
+        this.runModel(20,20,30,30,20,20,20,20,20,8);
+    }
+
+    @RepeatedTest(10)
+    public void runRepeated() throws ExceptionInvalidTimeDelay {
         this.runModel(20,20,30,30,20,20,20,20,20,8);
     }
 
